@@ -20,8 +20,11 @@ if(isset($_GET["score"])){
 
 // if username and score are present then see if its a highscore
 if($username !== "" && $score > 0){
-	// load highscores data file
-	$jsonString = file_get_contents($highscoresFile);
+	// load highscores data file, if file does not exist use an empty json array
+	$jsonString = "[]";
+	if(file_exists($highscoresFile)){
+		$jsonString = file_get_contents($highscoresFile);
+	}
 	$json = json_decode($jsonString,true);
 
 	// create array in memory to store the parse json values
@@ -50,12 +53,12 @@ if($username !== "" && $score > 0){
 		}
 		
 		unset($highscores[$indexOfLowestScore]);
-		$values = array("username" => $username, "score" => $score);
+		$values = array_values(array("username" => $username, "score" => $score));
 		array_push($highscores, $values);
 	}
 	
 	// save the new highscores file
-	file_put_contents($highscoresFile, json_encode($highscores));
+	file_put_contents($highscoresFile, json_encode(array_values($highscores)));
 	
 	$result = array("success" => "true");
 	echo json_encode($result);
