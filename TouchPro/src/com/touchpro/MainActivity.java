@@ -23,12 +23,11 @@ public class MainActivity extends Activity {
 	}
 
 	public void playGame(View view) {
-		Toast.makeText(getApplicationContext(), "Play Game Button Pressed", Toast.LENGTH_SHORT).show();
 		Intent intent = new Intent(getApplicationContext(), PlayGameActivity.class);
 	    startActivity(intent);
 	}
 
 	public void viewHighScores(View view) {
-		Toast.makeText(getApplicationContext(), "View High Scores Button Pressed", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(), "TODO: View High Scores Button Pressed", Toast.LENGTH_SHORT).show();
 	}
 }
