@@ -3,8 +3,6 @@ package com.touchpro;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Handler.Callback;
-import android.os.Message;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,45 +13,42 @@ import android.widget.Toast;
 
 public class PlayGameActivity extends Activity {
 	long startTime = 0;
-	
-	 Handler timerHandler = new Handler();
-	    Runnable timerRunnable = new Runnable() {
 
-	        @Override
-	        public void run() {
-	            long millis = System.currentTimeMillis() - startTime;
-	            int seconds = (int) (millis / 1000) % 60;          
-	           
-	            final TextView counter = (TextView) findViewById(R.id.counter);
-	            counter.setText("Score: " + seconds);
+	Handler timerHandler = new Handler();
+	Runnable timerRunnable = new Runnable() {
 
-	            timerHandler.postDelayed(this, 500);
-	        }
-	    };
+		@Override
+		public void run() {
+			long millis = System.currentTimeMillis() - startTime;
+			int seconds = (int) (millis / 1000) % 60;
 
-	
+			final TextView counter = (TextView) findViewById(R.id.counter);
+			counter.setText("Score: " + seconds);
 
-	
-	
+			timerHandler.postDelayed(this, 500);
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.play_game_activity);
-		
+
 		final Button gameButton = (Button) findViewById(R.id.gameButton);
 		OnTouchListener listener = new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					timerHandler.postDelayed(timerRunnable, 0);
 					startTime = 0;
 					final TextView counter = (TextView) findViewById(R.id.counter);
-		            counter.setText("Score: 0");
-					Toast.makeText(getApplicationContext(), "Button Pressed", Toast.LENGTH_SHORT).show();
-				} else if(event.getAction() == MotionEvent.ACTION_UP){
-					 timerHandler.removeCallbacks(timerRunnable);
-					Toast.makeText(getApplicationContext(), "Button Released", Toast.LENGTH_SHORT).show();
+					counter.setText("Score: 0");
+					Toast.makeText(getApplicationContext(), "Button Pressed",
+							Toast.LENGTH_SHORT).show();
+				} else if (event.getAction() == MotionEvent.ACTION_UP) {
+					timerHandler.removeCallbacks(timerRunnable);
+					Toast.makeText(getApplicationContext(), "Button Released",
+							Toast.LENGTH_SHORT).show();
 				}
 				return false;
 			}
