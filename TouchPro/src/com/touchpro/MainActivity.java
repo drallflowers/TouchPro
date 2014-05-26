@@ -1,8 +1,7 @@
 package com.touchpro;
 
-import com.example.sample.R;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -25,6 +24,8 @@ public class MainActivity extends Activity {
 
 	public void playGame(View view) {
 		Toast.makeText(getApplicationContext(), "Play Game Button Pressed", Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(getApplicationContext(), PlayGameActivity.class);
+	    startActivity(intent);
 	}
 
 	public void viewHighScores(View view) {
