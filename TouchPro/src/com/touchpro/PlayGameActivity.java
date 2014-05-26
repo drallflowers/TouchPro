@@ -22,11 +22,10 @@ public class PlayGameActivity extends Activity {
 	        @Override
 	        public void run() {
 	            long millis = System.currentTimeMillis() - startTime;
-	            int seconds = (int) (millis / 1000);
-	            int minutes = seconds / 60;
-	            seconds = seconds % 60;
+	            int seconds = (int) (millis / 1000) % 60;          
+	           
 	            final TextView counter = (TextView) findViewById(R.id.counter);
-	            counter.setText(String.format("%d:%02d", minutes, seconds));
+	            counter.setText("Score: " + seconds);
 
 	            timerHandler.postDelayed(this, 500);
 	        }
@@ -48,6 +47,9 @@ public class PlayGameActivity extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {
 				if(event.getAction() == MotionEvent.ACTION_DOWN){
 					timerHandler.postDelayed(timerRunnable, 0);
+					startTime = 0;
+					final TextView counter = (TextView) findViewById(R.id.counter);
+		            counter.setText("Score: 0");
 					Toast.makeText(getApplicationContext(), "Button Pressed", Toast.LENGTH_SHORT).show();
 				} else if(event.getAction() == MotionEvent.ACTION_UP){
 					 timerHandler.removeCallbacks(timerRunnable);
