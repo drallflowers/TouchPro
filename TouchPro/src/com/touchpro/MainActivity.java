@@ -28,6 +28,8 @@ public class MainActivity extends Activity {
 	}
 
 	public void viewHighScores(View view) {
-		Toast.makeText(getApplicationContext(), "TODO: View High Scores Button Pressed", Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(getApplicationContext(), GetHighScoresActivity.class);
+		startActivity(intent);
+		//Toast.makeText(getApplicationContext(), "TODO: View High Scores Button Pressed", Toast.LENGTH_SHORT).show();
 	}
 }
