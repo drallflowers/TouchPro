@@ -1,6 +1,5 @@
 package com.touchpro;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,62 +16,21 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 public class GetHighScoresActivity extends Activity {
-	ArrayList<HighScore> ListOfHighScores = new ArrayList<HighScore>();
 
-	// Created a HighScore object to help sort the score of the players
-	public class HighScore implements Comparable<HighScore> {
-		String username = "";
-		int score = 0;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.get_highscores_activity);
+		
+		ArrayList<HighScore> listOfHighScores = new ArrayList<HighScore>();
 
-		public HighScore(String username, int score) {
-			this.username = username;
-			this.score = score;
-		}
-
-		public int getScore() {
-			return score;
-		}
-
-		public String getUser() {
-			return username;
-		}
-
-		public void setScore(int score) {
-			this.score = score;
-		}
-
-		public void setUser(String user) {
-			this.username = user;
-		}
-
-		@Override
-		public int compareTo(HighScore another) {
-			if (getScore() < another.getScore()) {
-				return -1;
-			} else if (getScore() > another.getScore()) {
-				return 1;
-			}
-
-			return 0;
-		}
-
-	}
-
-	/*
-	 * Parses JSON on server then uploads scores to a sheet for the app
-	 */
-	public void run() throws IOException {
-
-		// TODO:insert proper URL from Ben's website
-		URL url = new URL("http://127.0.0.1/HighScores/get_highscores.php");
 		try {
+			URL url = new URL("http:/www.questionablecode.org/get_highscores.php");
 			InputStream is = url.openStream();
 			JSONParser parser = new JSONParser();
 			JSONArray json = (JSONArray) parser.parse(IOUtils.toString(is));
@@ -83,33 +41,24 @@ public class GetHighScoresActivity extends Activity {
 				String user = x.get("username").toString();
 				int score = (int) x.get("score");
 				HighScore temp = new HighScore(user, score);
-				ListOfHighScores.add(temp);
+				listOfHighScores.add(temp);
 
 			}
-			Collections.sort(ListOfHighScores);
+			Collections.sort(listOfHighScores);
 
 			// TODO:update cells
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.get_highscores_activity);
-		final Button gameButton = (Button) findViewById(R.id.viewHighScoresButton);
-
+		
 		// Big O(n)linear with time
 		// loops thru List of high scores for 10 of cells
 		// if 10 high scoring players do not exist input a dummy value
-		StringBuilder sb = new StringBuilder("cnt");
 		for (int i = 0; i < 11; i++) {
-			if (ListOfHighScores.get(i).equals(null)
-					|| ListOfHighScores.get(i).equals(" ")) {
+			if (listOfHighScores.get(i).equals(null) || listOfHighScores.get(i).equals(" ")) {
 				HighScore dummyValue = new HighScore("no player", 0);
-				ListOfHighScores.add(dummyValue);
+				listOfHighScores.add(dummyValue);
 			}
 
 		}
@@ -297,7 +246,6 @@ public class GetHighScoresActivity extends Activity {
 		rank9.addView(Score9);
 
 		rank10.addView(Score10);
-
 	}
 
 	@Override

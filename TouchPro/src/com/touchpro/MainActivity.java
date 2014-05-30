@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -30,6 +29,5 @@ public class MainActivity extends Activity {
 	public void viewHighScores(View view) {
 		Intent intent = new Intent(getApplicationContext(), GetHighScoresActivity.class);
 		startActivity(intent);
-		//Toast.makeText(getApplicationContext(), "TODO: View High Scores Button Pressed", Toast.LENGTH_SHORT).show();
 	}
 }
